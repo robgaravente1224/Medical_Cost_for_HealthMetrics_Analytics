@@ -1,0 +1,95 @@
+-- Project: Medical Cost Analysis by Robert Garavente
+-- This SQL script demonstrates a full data pipeline, from schema definition to insightful queries.
+-- It's designed to be run in a tool like DB Fiddle to showcase a professional workflow.
+
+-- =================================================================================
+-- PHASE 1: SCHEMA DEFINITION & DATA POPULATION (DB Fiddle - Schema SQL)
+-- This section defines the table structure and populates it with the
+-- cleaned and feature-engineered data. This is the code that goes into the
+-- 'Schema SQL' panel of a tool like DB Fiddle.
+-- =================================================================================
+
+-- CREATE TABLE Statement:
+-- This defines the structure of the 'insurance_data' table.
+-- It includes the original raw columns as well as the new, more descriptive
+-- features (e.g., age_group, combined_health_status, smoker_binary)
+-- that are essential for deep analysis.
+CREATE TABLE insurance_data (
+    age INT,
+    sex VARCHAR(50),
+    bmi FLOAT,
+    children INT,
+    smoker VARCHAR(50),
+    region VARCHAR(50),
+    total_charges VARCHAR(50),
+    age_group VARCHAR(50),
+    bmi_category VARCHAR(50),
+    bmi_health_status VARCHAR(50),
+    parental_status VARCHAR(50),
+    children_category VARCHAR(50),
+    combined_health_status VARCHAR(50),
+    bmi_smoker_category VARCHAR(50),
+    age_bmi_category VARCHAR(50),
+    geographic_location VARCHAR(50),
+    total_charges_category VARCHAR(50),
+    smoker_binary INT,
+    sex_binary INT,
+    parental_status_binary INT,
+    geographic_location_binary INT,
+    region_northeast_binary INT,
+    region_northwest_binary INT,
+    region_southeast_binary INT,
+    region_southwest_binary INT,
+    age_smoker_interaction INT,
+    bmi_smoker_interaction FLOAT,
+    bmi_risk_interaction VARCHAR(50),
+    age_bmi_risk_interaction VARCHAR(50),
+    region_and_smoker_interaction VARCHAR(50),
+    per_dependant_charge VARCHAR(50),
+    log_charges FLOAT
+);
+
+-- INSERT INTO Statements:
+-- This loads a sample of the cleaned data into the newly created table.
+-- This step demonstrates the ability to handle data population after
+-- feature engineering is complete.
+INSERT INTO insurance_data (age, sex, bmi, children, smoker, region, total_charges, age_group, bmi_category, bmi_health_status, parental_status, children_category, combined_health_status, bmi_smoker_category, age_bmi_category, geographic_location, total_charges_category, smoker_binary, sex_binary, parental_status_binary, geographic_location_binary, region_northeast_binary, region_northwest_binary, region_southeast_binary, region_southwest_binary, age_smoker_interaction, bmi_smoker_interaction, bmi_risk_interaction, age_bmi_risk_interaction, region_and_smoker_interaction, per_dependant_charge, log_charges) VALUES
+(19, 'female', 27.9, 0, 'yes', 'southwest', '$16,884.92', 'young_adult', 'overweight', 'unhealthy', 'not_a_parent', '0', 'high_risk', 'overweight_yes', 'young_adult_overweight', 'west_coast', 'very_high', 1, 0, 0, 0, 0, 0, 0, 1, 19, 27.9, 'overweight', '19_overweight', 'southwest_yes', '$16,884.92', 9.734176432),
+(18, 'male', 33.8, 1, 'no', 'southeast', '$1,725.55', 'young_adult', 'obese', 'unhealthy', 'parent', '1', 'medium_risk', 'obese_no', 'young_adult_obese', 'east_coast', 'low', 0, 1, 1, 0, 0, 0, 1, 0, 0, 0.0, 'obese', '18_obese', 'southeast_no', '$1,725.55', 7.453302452),
+(28, 'male', 33.0, 3, 'no', 'southeast', '$4,449.46', 'young_adult', 'obese', 'unhealthy', 'parent', '3', 'medium_risk', 'obese_no', 'young_adult_obese', 'east_coast', 'low', 0, 1, 1, 0, 0, 0, 1, 0, 0, 0.0, 'obese', '28_obese', 'southeast_no', '$1,483.15', 8.400538469),
+(33, 'male', 22.7, 0, 'no', 'northwest', '$21,984.47', 'young_adult', 'normal_weight', 'healthy', 'not_a_parent', '0', 'low_risk', 'normal_weight_no', 'young_adult_normal_weight', 'west_coast', 'very_high', 0, 1, 0, 0, 0, 1, 0, 0, 0, 0.0, 'healthy', '33_healthy', 'northwest_no', '$21,984.47', 9.998091602),
+(32, 'male', 28.9, 0, 'no', 'northwest', '$3,866.86', 'young_adult', 'overweight', 'unhealthy', 'not_a_a parent', '0', 'medium_risk', 'overweight_no', 'young_adult_overweight', 'west_coast', 'low', 0, 1, 0, 0, 0, 1, 0, 0, 0, 0.0, 'overweight', '32_overweight', 'northwest_no', '$3,866.86', 8.260196846),
+(31, 'female', 25.7, 0, 'no', 'southeast', '$3,756.62', 'young_adult', 'overweight', 'unhealthy', 'not_a_parent', '0', 'medium_risk', 'overweight_no', 'young_adult_overweight', 'east_coast', 'low', 0, 0, 0, 0, 0, 0, 1, 0, 0, 0.0, 'overweight', '31_overweight', 'southeast_no', '$3,756.62', 8.231275322);
+
+
+-- =================================================================================
+-- PHASE 2: BUSINESS-FOCUSED ANALYSIS (DB Fiddle - Query SQL)
+-- This section contains the analytical queries. This is the code that goes into the
+-- 'Query SQL' panel of a tool like DB Fiddle, and it leverages the new
+-- features to extract actionable insights.
+-- =================================================================================
+
+-- Query 1: High-Impact Factors
+-- This query identifies the top 10 highest-cost claims to understand which
+-- demographic and health factors correlate with the highest charges.
+-- It demonstrates the power of the 'combined_health_status' and 'total_charges_category'
+-- features in a business context.
+SELECT total_charges, combined_health_status, age_group, smoker
+FROM insurance_data
+ORDER BY total_charges_category DESC
+LIMIT 10;
+
+-- Query 2: Data Validation for New Features
+-- This query confirms that the new 'combined_health_status' column was
+-- successfully created and populated with distinct, meaningful values,
+-- showcasing attention to data integrity.
+SELECT DISTINCT combined_health_status FROM insurance_data;
+
+-- Query 3: Impact of Smoking on Client Base
+-- By using the 'smoker_binary' column, this simple but effective query
+-- provides a clear count of smokers versus non-smokers, which is a key
+-- metric for understanding health risk within a client base.
+SELECT smoker_binary, COUNT(*) AS count_of_smokers
+FROM insurance_data
+GROUP BY smoker_binary;
+
