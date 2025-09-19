@@ -29,7 +29,7 @@ Reproducibility: The entire process is captured in my public SQL Fiddle, demonst
 ## 2. Exploratory Data Analysis (EDA)
 My EDA focused on uncovering the key drivers of medical costs through visualization and statistical testing.
 
-Core Finding: I confirmed that smoking status is the dominant factor in medical costs. A statistical t-test validated that the difference in costs between smokers (~$32,000) and non-smokers (~$8,400) is highly significant.
+Core Finding: I confirmed that smoking status is the dominant factor in medical costs. A statistical t-test validated that the difference in costs between smokers (~$32,000) and non-smokers (~$8,400) is highly significant..
 
 Additional Insights: The analysis also identified a positive correlation between costs and both age and bmi, while highlighting regional cost variances.
 
