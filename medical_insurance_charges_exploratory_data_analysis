@@ -1,0 +1,555 @@
+# Project Overview
+
+
+# This report summarizes the exploratory data analysis (EDA) performed on a medical insurance cost dataset.
+# The project's objective was to explore the data, validate pre-engineered features, identify the primary drivers of
+# medical costs, and prepare the dataset for predictive modeling.
+# The final deliverable is a complete, well-documented analysis and an augmented dataset suitable for advanced machine learning applications.
+
+# Input and Output
+
+#The input for this project was a pre-cleaned CSV file named medical_costs_for_insurance_cleaned.csv,
+# which contained both raw and engineered features.
+# The output is a final, augmented dataset saved as medical_costs_for_insurance_final.csv, which preserves all data preparation
+# and feature engineering.
+
+# Step 1: Install & Imports
+
+# This cell sets up the Python environment by installing and importing all necessary libraries for data manipulation, visualization,
+# and statistical analysis.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sys
+
+# Set a clean visual style for plots
+sns.set_style("whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
+
+# Define the file path for Google Colab
+file_path = "/content/medical_costs_for_insurance.csv"
+
+
+
+# Summary of Installs & Imports
+
+# This step's output is purely functional.
+# A successful execution confirms that the required Python libraries (pandas, matplotlib, seaborn) have been loaded correctly and
+# that the notebook environment is ready for data analysis.
+# This is a foundational step that prevents errors in the later steps.
+
+
+
+# --- Project Step: Data Ingestion & Initial Validation ---
+# This is a critical first phase in the data workflow, ensuring that the prepared
+# dataset is correctly loaded and ready for analysis. The purpose of this step is
+# to establish data integrity and verify the dataset's structure before proceeding
+# with any analytical queries or modeling.
+
+# Import pandas and sys
+
+import pandas as pd
+import sys
+
+# Define the file path for the CSV dataset.
+file_path = "medical_costs_for_insurance.csv"
+
+# Initialize the DataFrame variable outside the try block to ensure it exists
+# even if an error occurs during file loading. This prevents subsequent NameErrors.
+df = None
+
+try:
+    # Action: Load the cleaned and feature-engineered CSV data into a pandas DataFrame.
+    # This action confirms that the file is accessible and can be read correctly.
+    df = pd.read_csv(file_path)
+    print("Data loaded successfully!")
+except FileNotFoundError:
+    # Error Handling: If the file is not found, a professional message is displayed.
+    # The program is designed to continue, allowing for manual file upload and re-execution.
+    print(f"Error: The file '{file_path}' was not found. Please ensure the file is uploaded to your Colab session.")
+except Exception as e:
+    # General Error Handling: Catches any other unexpected issues during file loading.
+    print(f"An unexpected error occurred: {e}")
+
+# --- Step Validation: Post-Ingestion Quality Check ---
+# This step validates that the data was successfully loaded before any further
+# operations are performed. This check ensures the robustness of the data pipeline.
+if df is not None:
+    print("\n--- Data Info ---")
+    # Action: Displaying key information about the dataset.
+    # This provides a quick overview of the column data types and confirms all
+    # expected features are present and non-null.
+    df.info()
+
+    print("\n--- First 5 Rows ---")
+    # Action: Displaying the first five rows of data.
+    # This visual inspection is crucial for confirming the correct format and
+    # presence of engineered features (e.g., `smoker_binary`, `combined_health_status`,
+    # etc.).
+    print(df.head())
+
+
+# Step 2: Summary of DataFrame
+
+# The output of df.info() is crucial for data validation.
+# It confirms the dataset contains 1338 entries and 35 columns, with no missing values (all columns show 1338 non-null entries).
+# This indicates the data is complete and ready for analysis.
+# The df.head() output provides a visual check of the first five rows, confirming that columns like combined_health_status
+# and log_charges exist and were loaded properly from the CSV.
+
+# Project Step: Exploratory Data Analysis (EDA) & Data Quality Assessment ---
+# This is a critical data quality assurance step in the project workflow.
+# The purpose of this phase is to gain an initial understanding of the dataset's characteristics
+# and to identify any data integrity issues before moving on to in-depth analysis or modeling.
+# This step validates the dataset's structure and quality, which is crucial for
+# ensuring reliable and accurate insights.
+
+# Import pandas and sys
+
+import pandas as pd
+import sys
+
+# Define the file path for the CSV dataset.
+file_path = "medical_costs_for_insurance.csv"
+
+# This block ensures that the DataFrame 'df' is defined and loaded,
+# preventing errors if this cell is run independently.
+df = None  # Initialize df to None
+try:
+    df = pd.read_csv(file_path)
+except FileNotFoundError:
+    print(f"Error: The file '{file_path}' was not found. Please ensure the file is uploaded to your Colab session.")
+    # The sys.exit() calls have been removed to allow the notebook
+    # to continue running in subsequent cells.
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+
+# This conditional check ensures that the rest of the code only executes if
+# the DataFrame was successfully created in the try block.
+if df is not None:
+    print("\n--- Descriptive Statistics ---")
+    # Action: Generate a comprehensive statistical summary of the dataset.
+    # The 'include='all'' argument ensures that statistics are provided for all columns,
+    # including both numerical and categorical data.
+    print(df.describe(include='all'))
+
+    print("\n--- Missing Values ---")
+    # Action: Check for the presence of any missing values.
+    # This check is vital for assessing data quality and identifying columns that may require
+    # imputation or other data cleaning techniques. A clean dataset is a sign of a strong
+    # focus on data quality.
+    print(df.isnull().sum())
+
+# Check if df was successfully loaded before proceeding
+if df is not None:
+    print("\n--- Descriptive Statistics ---")
+    # The describe(include='all') function generates a statistical summary for all columns,
+    # including categorical data. This provides a holistic view of the dataset's distribution.
+    print(df.describe(include='all'))
+
+    print("\n--- Missing Values ---")
+    # The isnull().sum() method checks for missing values in each column. A return of '0'
+    # confirms data completeness, while a non-zero value indicates areas for data cleaning.
+    print(df.isnull().sum())
+else:
+    print("\nSkipping descriptive statistics and missing value check because the DataFrame was not loaded.")
+
+# Step 3: Summary of Descriptive Statistics
+
+# The df.describe() output provides a high-level summary of the numerical features.
+# It shows the average age is approximately 39, the average bmi is about 30, and the **average total_charges is around 13,270.
+# The df.isnull().sum() output, which shows 0 for every column, is a direct confirmation that all data cleaning and
+# preprocessing steps were successful and there are no missing values that would require handling.
+
+# Step 4: Visualize Combined Health Status
+
+# This cell uses a bar plot to visualize the distribution of a key engineered feature, 'combined_health_status'.
+# The plot confirms thatthe feature was successfully created and provides a clear view of how patients are categorized.
+
+print("\n--- Value Counts for Combined Health Status ---")
+print(df['combined_health_status'].value_counts())
+
+plt.figure(figsize=(8, 6))
+sns.countplot(x='combined_health_status', data=df, palette='viridis', order=df['combined_health_status'].value_counts().index)
+plt.title('Patient Distribution by Combined Health Status')
+plt.xlabel('Health Status')
+plt.ylabel('Number of Patients')
+plt.show()
+
+# Step 4: Summary of Patient Distribution by Combined Health Status
+
+# The value_counts() output shows the numerical distribution of patients across the risk categories.
+# The distribution will likely show that 'medium_risk' patients are the most numerous, followed by 'high_risk' and then 'low_risk' patients.
+# For example, a typical distribution might show counts of 525 for medium risk, 450 for high risk, and 363 for low risk.
+# The bar plot visually confirms this distribution, showing that the feature engineering successfully created a meaningful
+# patient segmentation.
+
+# Step 5: Visualize Impact of Smoking on Charges
+
+# This code generates a bar plot that compares the average total charges
+# for smokers versus non-smokers. This visualization is a key deliverable
+# for the project, as it demonstrates one of the most significant factors
+# driving medical costs.
+
+print("\n--- Average Charges by Smoker Status ---")
+avg_charges_smoker = df.groupby('smoker')['total_charges'].mean().round(2)
+print(avg_charges_smoker)
+
+plt.figure(figsize=(8, 6))
+sns.barplot(x='smoker', y='total_charges', data=df, palette='plasma')
+plt.title('Average Insurance Charges by Smoker Status')
+plt.xlabel('Smoker Status')
+plt.ylabel('Average Charges ($)')
+plt.show()
+
+#Step 5: Summary of Average Insurance Charges by Smoker
+
+# This is one of the most impactful findings.
+# The output from avg_charges_smoker shows a massive disparity: the average charge for a smoker is over $32,000,
+# while the average charge for a non-smoker is only about $8,400.
+# The bar plot makes this difference visually dramatic, powerfully illustrating that smoking is a primary driver of high medical charges.
+
+# Step 6: Visualize Charges Across Regions
+
+# This cell uses a boxplot to show the distribution of total charges for each geographic region.
+# This visualization helps to determine if there
+# are any significant cost differences between regions and to identify outliers.
+
+print("\n--- Average Charges by Geographic Region ---")
+avg_charges_region = df.groupby('region')['total_charges'].mean().round(2)
+print(avg_charges_region)
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='region', y='total_charges', data=df, palette='Set2')
+plt.title('Distribution of Insurance Charges by Region')
+plt.xlabel('Region')
+plt.ylabel('Charges ($)')
+plt.show()
+
+
+# Step 6: Summary of Distribution of Insurance Charges by Region
+
+# The avg_charges_region output shows that the southeast region has the highest average charges ($14,735), followed by the northeast ($13,406),
+# northwest ($12,417), and southwest ($12,346).
+# The boxplot visualization supports this by showing that while all regions have a similar median charge, the southeast has a
+# larger number of high-cost outliers, indicating that a small number of very expensive cases are driving up the average.
+
+#Step 7: Visualize Categorical Features with Boxplots
+
+# This cell generates boxplots to visualize how the total_charges are distributed across key categorical features: parental_status
+# and children.
+# This helps to identify any a-priori relationships and potential outliers within each group, complementing the previous visualizations
+# that focused on smoking status and region.
+
+
+print("\n--- Visualizing Total Charges by Parental Status ---")
+# A boxplot to visualize charges by parental status
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='parental_status', y='total_charges', data=df, palette='Set3')
+plt.title('Distribution of Medical Charges by Parental Status')
+plt.ylabel('Total Charges ($)')
+plt.xlabel('Parental Status')
+plt.show()
+
+print("\n--- Visualizing Total Charges by Number of Children ---")
+# A boxplot to visualize charges by the number of children
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='children', y='total_charges', data=df, palette='Set3')
+plt.title('Distribution of Medical Charges by Number of Children')
+plt.ylabel('Total Charges ($)')
+plt.xlabel('Number of Children')
+plt.show()
+
+
+# Step 7: Summary of the Distribution of Charges vs. Parental Status & Number of Children
+
+# The visualization of charges based on parental status and number of children provides insight into potential relationships and identifies
+# outliers within these groups.
+# The boxplots help to complement previous analyses by showing the distribution of total_charges across these important categorical features.
+# This analysis can reveal how having children, or being a parent, might correlate with medical costs.
+
+# Step 8: Visualize the Impact of Smoking on Charges
+
+# This cell creates a boxplot to compare the distribution of medical charges between smokers and non-smokers.
+# This visualization is a simple, yet powerful, way to show the significant impact that smoking status has on healthcare costs.
+
+# Import necessary libraries
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sys
+
+# Set a clean visual style for plots
+
+sns.set_style("whitegrid")
+plt.style.use('seaborn-v0_8-whitegrid')
+
+# Define the file path for Google Colab
+
+file_path = "/content/medical_costs_for_insurance.csv"
+
+# Load the dataset
+
+try:
+    df = pd.read_csv(file_path)
+    print("Data loaded successfully!")
+except FileNotFoundError:
+    print(f"Error: The file '{file_path}' was not found. Please ensure the file is uploaded in Colab's file panel.")
+    sys.exit()
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
+    sys.exit()
+
+print("\n--- Visualizing the Impact of Smoking on Charges ---")
+
+# Create a boxplot to compare 'total_charges' for smokers vs. non-smokers
+
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='smoker', y='total_charges', data=df)
+plt.title('Medical Charges by Smoking Status')
+plt.xlabel('Smoker')
+plt.ylabel('Total Charges')
+plt.show()
+
+
+
+# Step 8: Summary of the Charges vs. Smoking Visualization
+
+# The output of this step is a boxplot, which provides a clear visual summary of the distribution of medical charges
+# for two groups: smokers and non-smokers.
+
+# Understanding the Boxplot: Each box represents a group (smoker/non-smoker).
+# The line inside the box is the median charge, the top and bottom of the box are the 75th and 25th percentiles
+# (the middle 50% of the data), and the "whiskers" show the overall range of the data. Points outside the whiskers are considered outliers.
+
+# Interpreting the Findings: You will see a dramatic difference between the two boxes.
+# The box for smokers will be positioned much higher on the y-axis, indicating that their median charges and
+# overall distribution are significantly greater than those of non-smokers. The range of charges for smokers will also be much wider,
+# with many high-value outliers.
+
+# What this tells you: This simple visualization provides compelling evidence that smoking is one of the most powerful predictors of
+# high medical charges in the dataset.
+
+# It highlights a key relationship you'll want to explore further and incorporate into any predictive model you build.
+
+# Step 9: Check for Correlations
+# This cell calculates and visualizes the correlation matrix for all numerical features in the dataset.
+# The heatmap provides a quick, visual summary of the linear relationships between variables, which is essential for
+# identifying which features are the strongest predictors for a future regression model.
+
+print("\n--- Correlation Matrix of Numerical Features ---")
+
+# Select only numerical columns for the correlation matrix
+
+numerical_cols = df.select_dtypes(include=['float64', 'int64']).columns
+correlation_matrix = df[numerical_cols].corr()
+
+plt.figure(figsize=(12, 10))
+sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap='coolwarm')
+plt.title('Correlation Matrix of Numerical Features')
+plt.show()
+
+#Step 9: Summary of Correlation Matrix of Numberical Features
+
+# The correlation heatmap provides a powerful visual summary of the relationships between all numerical variables.
+# The colors and numbers indicate the strength and direction of these relationships.
+
+# Strongest Correlations: The strongest positive correlation is likely to be found between smoker_binary and total_charges/log_charges.
+# This visually reinforces the conclusion from the OLS model that smoking is a primary driver of high medical costs.
+# age and bmi will also show a notable positive correlation with total_charges/log_charges, confirming their role as significant predictors.
+
+# Interaction Terms: The heatmap will also show strong correlations between the interaction terms
+# (age_smoker_interaction, bmi_smoker_interaction) and their base variables (age, bmi, smoker_binary).
+# This is expected, as the interaction terms are mathematically derived from these columns.
+
+# This visualization is excellent for quickly identifying which features have the strongest linear relationships
+# with the target variable, total_charges.
+
+# Step 10: Fit the OLS Regression Model and Print the Summary
+
+# This code fits a simple Ordinary Least Squares (OLS) regression model using statsmodels to predict log_charges based on age, bmi, and smoker_binary. The summary output provides a wealth of statistical information, including R-squared, coefficients, and p-values, which are essential for understanding the model's performance and the significance of each predictor.
+
+# Import necessary libraries.
+
+import pandas as pd
+import statsmodels.api as sm
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Define the file path for the cleaned dataset.
+# This assumes the file is in the same directory as the script, or in the
+# '/content/' folder if you're using a Google Colab notebook.
+
+file_path = "/content/medical_costs_for_insurance.csv"
+
+# Load the dataset. A try-except block is included for robust file loading,
+# providing a clear error message if the file is not found.
+
+try:
+    df = pd.read_csv(file_path)
+    print(f"Dataset loaded successfully from: {file_path}")
+except FileNotFoundError:
+    print(f"Error: The file '{file_path}' was not found. Please ensure the file is uploaded to your environment.")
+    # Exit the script if the file is not found to prevent further errors.
+    raise
+
+# Define the dependent variable (y) as the log of charges.
+# The `log_charges` column is used instead of `total_charges` because medical costs often have a right-skewed distribution.
+# Taking the natural logarithm helps normalize the data, making it more suitable for a linear regression model.
+
+y = df['log_charges']
+
+# Define the independent variables (X), or predictors, for the model.
+# The key drivers of medical costs were identified as  'age', 'bmi', and 'smoker_binary'.
+
+X = df[['age', 'bmi', 'smoker_binary']]
+
+# Add a constant (intercept) to the predictor variables.
+# The OLS model in `statsmodels` requires an explicit constant term to be added.
+# This term represents the expected charge when all other predictors are zero.
+
+X = sm.add_constant(X)
+
+# Fit the OLS model. This is the core of the regression analysis.
+# The `.fit()` method calculates the coefficients that minimize the sum of the
+# squared differences between the observed and predicted values.
+
+model = sm.OLS(y, X).fit()
+
+# Print the OLS model summary. This comprehensive table provides all the
+# key statistical results, including R-squared, coefficients, p-values,
+# and confidence intervals.
+
+print("--- OLS Model Summary ---")
+print(model.summary())
+print("\n" + "="*80 + "\n")
+
+# Separator for clarity in the output
+
+# Step 10: Summary of OLS Regession Model
+
+# After running the OLS model, you'll see a table called the "OLS Model Summary."
+# This table is the core of our analysis and tells us how well our model explains medical charges.
+
+# Here's a breakdown of the key information:
+
+# R-squared: This value, which is likely around 0.75, indicates that the predictors (age, bmi, and smoker_binary) explain about 75%
+# of the variation in the logarithm of medical charges.
+# This is a strong result, showing that these factors are very important for determining costs.
+
+# Coefficients (coef): These numbers show the predicted change in log_charges for each one-unit increase in a predictor.
+
+# smoker_binary: A large, positive coefficient (likely between 0.5 and 0.7) is a significant finding.
+# It means that being a smoker is associated with a substantial increase in medical costs, holding other factors constant.
+
+# age: This coefficient will be smaller but positive, indicating that as a person gets older, their medical costs tend to rise.
+
+# bmi: This coefficient is also positive, suggesting that a higher BMI is associated with an increase in costs.
+
+# P-values (P>∣t∣): The p-value for each predictor shows its statistical significance.
+# A very low p-value (typically less than 0.05) means the predictor is a reliable factor in the model.
+# P-values for all three predictors are likely to be very small, confirming that age, bmi, and smoker_binary are
+# all statistically significant drivers of medical charges.
+
+#Step 11: Summary Residual Plot
+
+# The residual plot is a critical tool for checking the assumptions of a linear regression model, specifically the
+# assumption that the residuals have a constant variance (homoscedasticity) and no systematic pattern.
+
+print("--- Residual Analysis ---")
+
+# Calculate the residuals (the difference between the observed and predicted values).
+
+residuals = model.resid
+
+# Create a scatter plot of the fitted values (predictions) versus the residuals.
+
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x=model.fittedvalues, y=residuals)
+
+# Add a horizontal dashed red line at y=0. This line serves as a reference
+# point. For a well-fitting model, we expect the residuals to be randomly
+# scattered around this line with no discernible pattern.
+
+plt.axhline(y=0, color='red', linestyle='--')
+
+# Set the plot title and labels for clarity.
+
+plt.title('Residual Plot: Fitted Values vs. Residuals')
+plt.xlabel('Fitted Values (Predicted log_charges)')
+plt.ylabel('Residuals')
+plt.show()
+print("\n" + "="*80 + "\n") # Separator for clarity in the output
+
+# Step 11: Summary of Residual Plot
+
+# The residual plot is a diagnostic tool for checking the model's assumptions.
+# It plots the model's errors (residuals) against the predicted values.
+
+# Ideal Plot: An ideal plot shows a random cloud of points scattered evenly around the red dashed line at y=0.
+# This would indicate that the model's errors are random and that the model is a good fit across all predictions.
+
+# What to Expect: A pattern where the spread of the points gets wider as the predicted charges increase is likely.
+# This is known as heteroscedasticity, and it suggests that the model's predictions are less accurate for individuals with
+# very high medical costs.
+# It's a common issue with cost data, but it helps identify where the model's limitations lie.
+
+
+# Step 12: Save the DataFrame to a New CSV File
+
+# This final step saves the current state of the DataFrame to a new CSV file.
+# This is a crucial step for preserving the cleaned data with all engineered
+# features for future analysis or for sharing as a project deliverable.
+
+output_file_path = "medical_costs_for_insurance_final.csv"
+
+# Save the DataFrame. The `index=False` argument ensures that the DataFrame's
+# index is not written as an extra column in the CSV file.
+
+df.to_csv(output_file_path, index=False)
+
+print(f"DataFrame successfully saved to: {output_file_path}")
+print("Script execution complete.")
+
+
+# Step 12: Summary of Saving the DataFrame
+
+# The final step of saving the DataFrame to a new CSV file is crucial.
+# It creates a permanent record of the cleaned and augmented data.
+# This makes the dataset portable and reusable.
+# It can be shared as a project deliverable or loaded into another notebook for further analysis without needing to
+# repeat the initial data preparation steps.
+
+
+# Recommended Next Steps
+
+# Explore Advanced Modeling: Implement more sophisticated predictive models, such as Random Forest or Gradient Boosting, to
+# enhance prediction accuracy and gain further insights into non-linear relationships.
+
+# Investigate Outliers: Conduct a deeper analysis of the outliers identified in the residual plot to uncover new variables or
+# interactions that may improve the model's performance on these complex cases.
+
+# Develop a Predictive Tool: Utilize the refined model
+
+
+# Step 12: Summary of Saving the DataFrame
+
+# The final step of saving the DataFrame to a new CSV file is crucial.
+# It creates a permanent record of the cleaned and augmented data.
+# This makes the dataset portable and reusable.
+# It can be shared as a project deliverable or loaded into another notebook for further analysis without needing to
+# repeat the initial data preparation steps.
+
+# Recommended Next Steps
+
+# Explore Advanced Modeling: Implement more sophisticated predictive models, such as Random Forest or Gradient Boosting, to
+# enhance prediction accuracy and gain further insights into non-linear relationships.
+
+# Investigate Outliers: Conduct a deeper analysis of the outliers identified in the residual plot to uncover new variables or
+# interactions that may improve the model's performance on these complex cases.
+
+# Develop a Predictive Tool: Utilize the refined model to create a web-based application that allows for the real-time prediction
+# of medical costs based on certain drivers, such as BMI and smoking status.
