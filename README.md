@@ -29,7 +29,7 @@ Reproducibility: The entire process is captured in my public SQL Fiddle, demonst
 ## 2. Exploratory Data Analysis (EDA)
 My EDA focused on uncovering the key drivers of medical costs through visualization and statistical testing.
 
-Core Finding: I confirmed that smoking status is the dominant factor in medical costs. A statistical t-test validated that the difference in costs between smokers ($32,000) and non-smokers ($8,400) is highly significant..
+Core Finding: I confirmed that smoking status is the dominant factor in medical costs. A statistical t-test validated that the difference in costs between smokers ($32,000) and non-smokers ($8,400) is highly significant.
 
 Additional Insights: The analysis also identified a positive correlation between costs and both age and bmi, while highlighting regional cost variances.
 
@@ -52,6 +52,7 @@ data/: Includes the raw medical_costs.csv and the engineered medical_costs_for_i
 presentation/: A PDF version of the project presentation.
 
 ## Links
+* [**Medical Personal Costs Dataset on Kaggle**](https://www.kaggle.com/datasets/mirichoi0218/insurance)
 * [**SQL Workflow on DB Fiddle**](https://www.db-fiddle.com/f/nb6pePvo4zH7tUaLi9aEYB/0)
 * [**EDA Notebook**](https://colab.research.google.com/drive/1e2GU8vQhvM7-qOJjWaGIGlypI_fG2_T_#scrollTo=8MUlAw8aIBYc)
 * [**Predictive Modeling Notebook**](https://colab.research.google.com/drive/1eJuYwVs19c4y0B8VIs5xQ7T258kTuUpg#scrollTo=CFelhxz_AqR0)
