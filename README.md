@@ -45,11 +45,11 @@ Model Validation: The feature importance analysis from the Random Forest model r
 ## Repository Contents
 README.md: Project overview and summary.
 
-notebooks/: Contains the Jupyter notebooks for EDA and predictive modeling.
+Notebooks: Contains the Jupyter notebooks for EDA and predictive modeling.
 
-data/: Includes the raw medical_costs.csv and the engineered medical_costs_for_insurance.csv datasets.
+Data: Includes the raw medical_costs.csv and the engineered medical_costs_for_insurance.csv datasets.
 
-presentation/: A PDF version of the project presentation.
+Presentation: A PDF version of the project presentation.
 
 ## Links
 * [**Medical Personal Costs Dataset on Kaggle**](https://www.kaggle.com/datasets/mirichoi0218/insurance)
