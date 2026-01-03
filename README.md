@@ -17,7 +17,7 @@ My central finding is that smoking status is the single most powerful predictor 
 As an analyst for HealthMetrics Analytics, I was tasked with a critical business problem: to understand the factors driving medical claims and develop a predictive tool to improve underwriting and risk management. This project addresses the challenge of transforming complex, raw data into actionable intelligence.
 
 ## Data & Methodology
-I executed a comprehensive, three-part methodology:
+I executed a comprehensive, four-part methodology:
 
 ## 1. Data Engineering & Workflow
 I began with a raw dataset, medical_costs.csv, and developed a professional data engineering workflow using SQL to transform it into a structured, analytical-ready dataset. This process is fully documented and auditable.
